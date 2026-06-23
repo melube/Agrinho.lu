@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<title>AgroSmart 2026</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: Arial;
+}
+
+/* TELAS */
+.tela{
+    display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+/* ativa */
+.ativa{
+    display:flex;
+}
+
+/* 🌱 TELA 1 COM IMAGEM DE FUNDO */
+#tela1{
+    background-image: url("fundo.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 6px black;
+}
+
+/* botão */
+button{
+    padding:12px 20px;
+    border:none;
+    background:#2e7d32;
+    color:white;
+    font-size:16px;
+    margin-top:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+/* inputs */
+input{
+    padding:10px;
+    margin:5px;
+    width:200px;
+}
+
+/* resultado */
+#resultado{
+    margin-top:15px;
+    font-weight:bold;
+    font-size:18px;
+}
+.banner{
+    width: 250px;
+    border-radius: 12px;
+    margin: 10px;
+}
+
+.titulo-centro{
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 5px black;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🌱 TELA 1 -->
+<div id="tela1" class="tela ativa">
+
+<h1>🌱 Agrinho</h1>
+
+<img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30" class="banner">
+
+<div class="titulo-centro">2026</div>
+
+<p><b>Luiza Mayer</b></p>
+
+<button onclick="irParaTela2()">
+Entrar no Projeto
+</button>
+
+</div>
+
+<!-- 💧 TELA 2 -->
+<div id="tela2" class="tela">
+
+<h1>AgroSmart 🌱</h1>
+
+<p>Área da plantação (m²)</p>
+<input id="area" type="number">
+
+<p>Litros de água utilizados</p>
+<input id="agua" type="number">
+
+<button onclick="calcular()">
+Calcular consumo
+</button>
+
+<div id="resultado"></div>
+
+<button onclick="voltar()">
+Voltar
+</button>
+
+</div>
+
+<script>
+
+function irParaTela2(){
+    document.getElementById("tela1").classList.remove("ativa");
+    document.getElementById("tela2").classList.add("ativa");
+}
+
+function voltar(){
+    document.getElementById("tela2").classList.remove("ativa");
+    document.getElementById("tela1").classList.add("ativa");
+}
+
+function calcular(){
+
+let area = Number(document.getElementById("area").value);
+let agua = Number(document.getElementById("agua").value);
+
+let resultado = document.getElementById("resultado");
+
+if(area <= 0 || agua <= 0){
+    resultado.innerHTML = "⚠️ Preencha corretamente.";
+    return;
+}
+
+let consumo = agua / area;
+
+if(consumo <= 3){
+    resultado.innerHTML = "🟢 Uso eficiente de água!";
+}
+else if(consumo <= 7){
+    resultado.innerHTML = "🟡 Consumo moderado.";
+}
+else{
+    resultado.innerHTML = "🔴 Consumo alto! Economize água.";
+}
+
+}
+
+</script>
+
+</body>
+</html>
