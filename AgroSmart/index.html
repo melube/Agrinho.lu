@@ -9,7 +9,7 @@
 
 body{
     margin:0;
-    font-family: Arial;
+    font-family:Arial, sans-serif;
 }
 
 /* TELAS */
@@ -22,21 +22,32 @@ body{
     text-align:center;
 }
 
-/* ativa */
+/* Tela ativa */
 .ativa{
     display:flex;
 }
 
-/* 🌱 TELA 1 COM IMAGEM DE FUNDO */
+/* 🌱 TELA 1 */
 #tela1{
-    background-image: url("fundo.jpg");
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-shadow: 2px 2px 6px black;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("29489.jpg"); /* Troque aqui se sua imagem tiver outro nome */
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    color:white;
+    text-shadow:2px 2px 6px black;
 }
 
-/* botão */
+/* 🌿 TELA 2 */
+#tela2{
+    background-color:#d8f3dc;
+    color:#1b4332;
+}
+
+/* Botões */
 button{
     padding:12px 20px;
     border:none;
@@ -46,36 +57,44 @@ button{
     margin-top:10px;
     border-radius:8px;
     cursor:pointer;
+    transition:0.3s;
 }
 
 button:hover{
     background:#1b5e20;
 }
 
-/* inputs */
+/* Inputs */
 input{
     padding:10px;
     margin:5px;
-    width:200px;
+    width:220px;
+    border-radius:6px;
+    border:1px solid #999;
+    font-size:16px;
 }
 
-/* resultado */
+/* Resultado */
 #resultado{
     margin-top:15px;
     font-weight:bold;
-    font-size:18px;
-}
-.banner{
-    width: 250px;
-    border-radius: 12px;
-    margin: 10px;
+    font-size:20px;
 }
 
+/* Título */
 .titulo-centro{
-    font-size: 40px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 5px black;
+    font-size:55px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+h1{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+p{
+    font-size:20px;
 }
 
 </style>
@@ -88,8 +107,6 @@ input{
 
 <h1>🌱 Agrinho</h1>
 
-<img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30" class="banner">
-
 <div class="titulo-centro">2026</div>
 
 <p><b>Luiza Mayer</b></p>
@@ -100,7 +117,7 @@ Entrar no Projeto
 
 </div>
 
-<!-- 💧 TELA 2 -->
+<!-- 🌿 TELA 2 -->
 <div id="tela2" class="tela">
 
 <h1>AgroSmart 🌱</h1>
@@ -116,6 +133,8 @@ Calcular consumo
 </button>
 
 <div id="resultado"></div>
+
+<br>
 
 <button onclick="voltar()">
 Voltar
@@ -137,27 +156,27 @@ function voltar(){
 
 function calcular(){
 
-let area = Number(document.getElementById("area").value);
-let agua = Number(document.getElementById("agua").value);
+    let area = Number(document.getElementById("area").value);
+    let agua = Number(document.getElementById("agua").value);
 
-let resultado = document.getElementById("resultado");
+    let resultado = document.getElementById("resultado");
 
-if(area <= 0 || agua <= 0){
-    resultado.innerHTML = "⚠️ Preencha corretamente.";
-    return;
-}
+    if(area <= 0 || agua <= 0){
+        resultado.innerHTML = "⚠️ Preencha corretamente.";
+        return;
+    }
 
-let consumo = agua / area;
+    let consumo = agua / area;
 
-if(consumo <= 3){
-    resultado.innerHTML = "🟢 Uso eficiente de água!";
-}
-else if(consumo <= 7){
-    resultado.innerHTML = "🟡 Consumo moderado.";
-}
-else{
-    resultado.innerHTML = "🔴 Consumo alto! Economize água.";
-}
+    if(consumo <= 3){
+        resultado.innerHTML = "🟢 Uso eficiente de água!";
+    }
+    else if(consumo <= 7){
+        resultado.innerHTML = "🟡 Consumo moderado.";
+    }
+    else{
+        resultado.innerHTML = "🔴 Consumo alto! Economize água.";
+    }
 
 }
 
