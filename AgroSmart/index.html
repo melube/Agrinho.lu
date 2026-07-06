@@ -1,186 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
-<title>AgroSmart 2026</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Uso Inteligente da Água no Campo</title>
 <style>
-
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-}
-
-/* TELAS */
-.tela{
-    display:none;
-    height:100vh;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    text-align:center;
-}
-
-/* Tela ativa */
-.ativa{
-    display:flex;
-}
-
-/* 🌱 TELA 1 */
-#tela1{
-    background-image:
-        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-        url("29489.jpg"); /* Troque aqui se sua imagem tiver outro nome */
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    color:white;
-    text-shadow:2px 2px 6px black;
-}
-
-/* 🌿 TELA 2 */
-#tela2{
-    background-color:#d8f3dc;
-    color:#1b4332;
-}
-
-/* Botões */
-button{
-    padding:12px 20px;
-    border:none;
-    background:#2e7d32;
-    color:white;
-    font-size:16px;
-    margin-top:10px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#1b5e20;
-}
-
-/* Inputs */
-input{
-    padding:10px;
-    margin:5px;
-    width:220px;
-    border-radius:6px;
-    border:1px solid #999;
-    font-size:16px;
-}
-
-/* Resultado */
-#resultado{
-    margin-top:15px;
-    font-weight:bold;
-    font-size:20px;
-}
-
-/* Título */
-.titulo-centro{
-    font-size:55px;
-    font-weight:bold;
-    margin:10px 0;
-}
-
-h1{
-    font-size:48px;
-    margin-bottom:10px;
-}
-
-p{
-    font-size:20px;
-}
-
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#e8f5e9}
+.tela{display:none;min-height:100vh;background-size:cover;background-position:center;align-items:center;justify-content:center;padding:20px}
+#t1{display:flex;background-image:url('inicio.jpg')}
+#t2{background-image:url('irrigacao.jpg')}
+#t3{background-image:url('resultado.jpg')}
+.card{max-width:650px;width:100%;background:rgba(255,255,255,.92);padding:28px;border-radius:16px}
+h1,h2{color:#1b5e20}label{display:block;margin-top:12px;font-weight:bold}
+input,select,button{width:100%;padding:12px;margin-top:6px;border-radius:8px}
+button{background:#2e7d32;color:#fff;border:none;cursor:pointer;margin-top:18px}
+#res{padding:12px;border-radius:10px;margin:10px 0}
 </style>
 </head>
-
 <body>
+<div id="t1" class="tela">
+<div class="card">
+<h1>Uso Inteligente da Água no Campo</h1>
+<p>Este projeto conscientiza sobre o uso sustentável da água na agricultura.</p>
+<button onclick="mostrar('t2')">Começar</button>
+</div></div>
 
-<!-- 🌱 TELA 1 -->
-<div id="tela1" class="tela ativa">
+<div id="t2" class="tela">
+<div class="card">
+<h2>Informe os dados</h2>
+<label>Área do terreno (m²)</label><input id="area" type="number">
+<label>Tipo de cultivo</label>
+<select id="cult">
+<option>Milho</option><option>Soja</option><option>Tomate</option><option>Alface</option><option>Trigo</option><option>Batata</option>
+</select>
+<label>Quantidade de água (litros)</label><input id="agua" type="number">
+<button onclick="calc()">Calcular</button>
+<button onclick="mostrar('t1')">Voltar</button>
+</div></div>
 
-<h1>🌱 Agrinho</h1>
-
-<div class="titulo-centro">2026</div>
-
-<p><b>Luiza Mayer</b></p>
-
-<button onclick="irParaTela2()">
-Entrar no Projeto
-</button>
-
-</div>
-
-<!-- 🌿 TELA 2 -->
-<div id="tela2" class="tela">
-
-<h1>AgroSmart 🌱</h1>
-
-<p>Área da plantação (m²)</p>
-<input id="area" type="number">
-
-<p>Litros de água utilizados</p>
-<input id="agua" type="number">
-
-<button onclick="calcular()">
-Calcular consumo
-</button>
-
-<div id="resultado"></div>
-
-<br>
-
-<button onclick="voltar()">
-Voltar
-</button>
-
-</div>
+<div id="t3" class="tela">
+<div class="card">
+<h2>Resultado</h2>
+<div id="res"></div>
+<div id="dicas"></div>
+<button onclick="mostrar('t2')">Calcular novamente</button>
+<button onclick="mostrar('t1')">Início</button>
+</div></div>
 
 <script>
-
-function irParaTela2(){
-    document.getElementById("tela1").classList.remove("ativa");
-    document.getElementById("tela2").classList.add("ativa");
+function mostrar(id){
+document.querySelectorAll('.tela').forEach(t=>t.style.display='none');
+document.getElementById(id).style.display='flex';
 }
-
-function voltar(){
-    document.getElementById("tela2").classList.remove("ativa");
-    document.getElementById("tela1").classList.add("ativa");
+const lim={Milho:.60,Soja:.55,Tomate:.75,Alface:.45,Trigo:.50,Batata:.65};
+function calc(){
+let a=+area.value,g=+agua.value,c=cult.value;
+if(!a||!g){alert("Preencha todos os campos.");return;}
+let uso=g/a,l=lim[c],r=document.getElementById('res'),d=document.getElementById('dicas');
+let msg,cor;
+if(uso<=l){msg="✅ Consumo Ideal";cor="#c8e6c9";}
+else if(uso<=l*1.5){msg="⚠ Consumo Moderado";cor="#fff9c4";}
+else{msg="❌ Consumo Excessivo";cor="#ffcdd2";}
+r.style.background=cor;
+r.innerHTML="<b>"+msg+"</b><br>Consumo: "+uso.toFixed(2)+" L/m²";
+d.innerHTML="<h3>Dicas sustentáveis</h3><ul><li>Use irrigação por gotejamento.</li><li>Aproveite água da chuva.</li><li>Regue em horários mais frescos.</li><li>Faça manutenção do sistema de irrigação.</li></ul>";
+mostrar('t3');
 }
-
-function calcular(){
-
-    let area = Number(document.getElementById("area").value);
-    let agua = Number(document.getElementById("agua").value);
-
-    let resultado = document.getElementById("resultado");
-
-    if(area <= 0 || agua <= 0){
-        resultado.innerHTML = "⚠️ Preencha corretamente.";
-        return;
-    }
-
-    let consumo = agua / area;
-
-    if(consumo <= 3){
-        resultado.innerHTML = "🟢 Uso eficiente de água!";
-    }
-    else if(consumo <= 7){
-        resultado.innerHTML = "🟡 Consumo moderado.";
-    }
-    else{
-        resultado.innerHTML = "🔴 Consumo alto! Economize água.";
-    }
-
-}
-
 </script>
-
-</body>
-</html>
+</body></html>
